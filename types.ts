@@ -1,6 +1,7 @@
 
 export interface PeriodProgress {
     current: number;
+    official: number;
     target: number;
     unit: string;
 }
