@@ -11,7 +11,7 @@ interface GoalProgressProps {
 }
 
 const GoalProgress: React.FC<GoalProgressProps> = ({ title, icon, dailyTarget, periodProgress }) => {
-  const { current, target, unit } = periodProgress;
+  const { current, target, unit, official } = periodProgress;
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -45,8 +45,13 @@ const GoalProgress: React.FC<GoalProgressProps> = ({ title, icon, dailyTarget, p
               style={{ width: `${progress}%` }}
             ></div>
           </div>
-          <div className="flex justify-between text-xs font-medium text-slate-300 px-1">
-            <span>進捗: <span className="font-bold text-white">{current.toLocaleString()}</span> {unit}</span>
+          <div className="flex justify-between text-xs font-medium text-slate-300 px-1 flex-wrap gap-x-4">
+            <span>
+              進捗: <span className="font-bold text-white">{current.toLocaleString()}</span> {unit}
+              {official !== undefined && (
+                <span className="text-slate-400 ml-2">(公式: <span className="font-bold text-white">{official.toLocaleString()}</span> {unit})</span>
+              )}
+            </span>
             <span>残り: <span className="font-bold text-white">{remaining.toLocaleString()}</span> {unit}</span>
           </div>
         </div>
