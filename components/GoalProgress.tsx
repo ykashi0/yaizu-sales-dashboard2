@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Card from './Card.tsx';
 import type { PeriodProgress, DailyTarget } from '../types.ts';
