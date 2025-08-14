@@ -27,7 +27,7 @@ const createPrompt = (metrics: SalesMetric[], periodProgress: PeriodProgress, da
     }).join('\n');
 
     const officialProgressText = periodProgress.official !== undefined
-        ? ` (内、公式確定: ${formatValue(periodProgress.official, periodProgress.unit)})`
+        ? ` (内、確定実績: ${formatValue(periodProgress.official, periodProgress.unit)})`
         : '';
     const periodProgressSummary = `期間進捗: ${formatValue(periodProgress.current, periodProgress.unit)}${officialProgressText} / ${formatValue(periodProgress.target, periodProgress.unit)} (進捗 ${Math.round((periodProgress.current/periodProgress.target)*100)}%)`;
     
