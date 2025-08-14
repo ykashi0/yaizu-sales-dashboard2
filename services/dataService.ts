@@ -8,7 +8,7 @@ const getMockData = (): DashboardData => {
     // This mock data is used as a fallback if fetching from the live URL fails.
     console.warn("Using mock data due to an error fetching live data. Check the console for details.");
     return {
-        periodProgress: { current: 3700, target: 6500, unit: "P" },
+        periodProgress: { current: 3700, official: 3500, target: 6500, unit: "P" },
         dailyTarget: { target: 800, unit: "P" },
         individualMetrics: [
             { label: "ペイトク加入率", current: 0.45, target: 0.60, unit: "%" },
