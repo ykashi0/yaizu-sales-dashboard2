@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import type { PeriodProgress, SalesMetric, SalesRep } from '../types.ts';
 
@@ -27,7 +26,10 @@ const createPrompt = (metrics: SalesMetric[], periodProgress: PeriodProgress, da
         return `- ${m.label}: ${formatValue(m.current, m.unit)} / ${formatValue(m.target, m.unit)} (進捗 ${progress}%) ${targetMet ? '【目標達成】' : ''}`;
     }).join('\n');
 
-    const periodProgressSummary = `期間進捗: ${formatValue(periodProgress.current, periodProgress.unit)} / ${formatValue(periodProgress.target, periodProgress.unit)} (進捗 ${Math.round((periodProgress.current/periodProgress.target)*100)}%)`;
+    const officialProgressText = periodProgress.official !== undefined
+        ? ` (内、公式確定: ${formatValue(periodProgress.official, periodProgress.unit)})`
+        : '';
+    const periodProgressSummary = `期間進捗: ${formatValue(periodProgress.current, periodProgress.unit)}${officialProgressText} / ${formatValue(periodProgress.target, periodProgress.unit)} (進捗 ${Math.round((periodProgress.current/periodProgress.target)*100)}%)`;
     
     const dailyRankingSummary = dailyRanking.map(r => `- ${r.rank}位: ${r.name}さん (${formatValue(r.points, 'P')})`).join('\n');
 
@@ -96,7 +98,12 @@ export const getAIAdvice = async (metrics: SalesMetric[], periodProgress: Period
             if (error.message.includes('API_KEY')) {
                  throw new Error("Gemini APIキーが設定されていません。");
             }
-            throw new Error(`AIアドバイスの生成に失敗しました: ${error.message}`);
+            // Handle quota exceeded error specifically
+            if (error.message.includes('429') || error.message.includes('RESOURCE_EXHAUSTED')) {
+                throw new Error("APIの利用上限に達しました。しばらく時間をおいて再度お試しください。");
+            }
+            // For other errors, provide a generic message without exposing raw error details to the UI
+            throw new Error("AIからの応答がありませんでした。ネットワーク接続を確認するか、時間をおいて再度お試しください。");
         }
         throw new Error("AIアドバイスの生成中に不明なエラーが発生しました。");
     }
