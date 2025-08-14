@@ -49,7 +49,7 @@ const GoalProgress: React.FC<GoalProgressProps> = ({ title, icon, dailyTarget, p
             <span>
               進捗: <span className="font-bold text-white">{current.toLocaleString()}</span> {unit}
               {official !== undefined && (
-                <span className="text-slate-400 ml-2">(公式: <span className="font-bold text-white">{official.toLocaleString()}</span> {unit})</span>
+                <span className="text-slate-400 ml-2">(確定実績: <span className="font-bold text-white">{official.toLocaleString()}</span> {unit})</span>
               )}
             </span>
             <span>残り: <span className="font-bold text-white">{remaining.toLocaleString()}</span> {unit}</span>
